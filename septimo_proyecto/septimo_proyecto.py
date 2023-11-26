@@ -32,3 +32,79 @@ puesto números o no, si ha puesto mayúsculas o minúsculas, y creemos el códi
 que el usuario va a ingresar siempre información apropiada. Por supuesto que si tú prefieres
 incluir todos esos controles, está genial. '''
 
+import random
+class Persona:
+
+    def __init__(self, nombre, apellido):
+        self.nombre = nombre
+        self.apellido = apellido
+
+class Cliente(Persona):
+
+    def __init__(self,nombre, apellido, numero_cuenta , balance = 0):
+        super().__init__(nombre, apellido)
+        self.numero_cuenta = numero_cuenta
+        self.balance = balance
+
+    def __str__(self):
+        return(f'''Usuario: {self.apellido}, {self.nombre}
+                  Nro de cuenta:{self.numero_cuenta}
+                  Dinero disponible: {self.balance}''')
+    def depositar(self, monto):
+        if monto > 0:
+            self.balance += monto
+            print(f"Depósito exitoso. Nuevo balance: {self.balance}")
+        else:
+            print("El monto debe ser mayor que cero para realizar un depósito.")
+
+    def retirar(self,monto):
+        if monto > 0 and monto <= self.balance:
+            self.balance -= monto
+            print(f"Retiro exitoso. Nuevo balance: {self.balance}")
+        elif monto <= 0:
+            print("El monto debe ser mayor que cero para realizar un retiro.")
+        else:
+            print("Fondos insuficientes para realizar el retiro.")
+
+def crear_cliente():
+    nombre = input('Ingrese su nombre: ')
+    apellido = input('Ingrese su apellido: ')
+    numero_cuenta = ''.join([str(random.randint(0, 9)) for _ in range(10)])
+
+    new_cliente = Cliente(nombre,apellido,numero_cuenta)
+
+    return new_cliente
+
+def inicio():
+    mi_cliente = crear_cliente()
+    print(mi_cliente)
+    opcion = 0
+
+    while opcion != 'S' :
+
+        opcion = input('''Bienvenido al cajero del Banco Santiago :
+                     [D] Depositar dinero
+                     [R] Retirar dinero
+                     [S] Salir''')
+
+        if opcion == 'D':
+            monto = int(input("Ingrese el monto a depositar: "))
+            mi_cliente.depositar(monto)
+            print(mi_cliente)
+        elif opcion == 'R':
+            monto = int(input('INgrese el monto que desea retirar: '))
+            mi_cliente.retirar(monto)
+            print(mi_cliente)
+
+    print("Gracias por operar en el Banco Santiago")
+
+inicio()
+
+
+
+
+
+
+
+
+
